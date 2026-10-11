@@ -1,0 +1,490 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f7f8f6;
+  --foreground: #17252a;
+  --surface: #ffffff;
+  --surface-hover: #f1f5f4;
+  --sidebar-bg: #f7f8f6;
+  --border: #e2e8e6;
+  --border-strong: #cbd5d1;
+  --primary: #0f766e;
+  --primary-light: #ccfbf1;
+  --primary-text: #0f766e;
+  --muted: #64748b;
+  --muted-light: #94a3b8;
+  --card-shadow: 0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px -1px rgb(15 23 42 / 0.06);
+  --elevated-shadow: 0 10px 15px -3px rgb(15 23 42 / 0.08), 0 4px 6px -4px rgb(15 23 42 / 0.04);
+  --row-divider: rgba(148, 163, 184, 0.35);
+}
+
+.dark {
+  --background: #0c1214;
+  --foreground: #e8eeef;
+  --surface: #141c1f;
+  --surface-hover: #1a2428;
+  --sidebar-bg: #0c1214;
+  --border: #243038;
+  --border-strong: #334155;
+  --primary: #2dd4bf;
+  --primary-light: #134e4a;
+  --primary-text: #5eead4;
+  --muted: #94a3b8;
+  --muted-light: #64748b;
+  --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.35);
+  --elevated-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.45);
+  --row-divider: rgba(51, 65, 85, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── MapLibre Controls Engineering Aesthetics ─── */
+.maplibregl-popup {
+  max-width: 340px !important;
+  z-index: 40;
+}
+
+.maplibregl-popup-content {
+  background: var(--surface) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  padding: 14px !important;
+  box-shadow: var(--elevated-shadow) !important;
+  font-family: inherit !important;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: var(--surface) !important;
+}
+
+.maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: var(--surface) !important;
+}
+
+.maplibregl-popup-close-button {
+  color: var(--muted) !important;
+  font-size: 16px !important;
+  padding: 4px 8px !important;
+  top: 4px !important;
+  right: 4px !important;
+  border-radius: 4px !important;
+}
+
+.maplibregl-popup-close-button:hover {
+  background-color: var(--surface-hover) !important;
+  color: var(--foreground) !important;
+}
+
+/* Hide default MapLibre navigation control — we use our own dock */
+.maplibregl-ctrl-top-right {
+  display: none !important;
+}
+
+.maplibregl-ctrl-bottom-right {
+  margin-bottom: 4px !important;
+  margin-right: 4px !important;
+}
+
+.maplibregl-ctrl-attrib {
+  background: rgba(255, 255, 255, 0.82) !important;
+  font-size: 9px !important;
+  border-radius: 4px !important;
+}
+
+/* ─── Map Control Dock (segmented square dock) ─── */
+.map-ctrl-dock {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+
+.dark .map-ctrl-dock {
+  background: rgba(17, 24, 39, 0.97);
+  border-color: var(--border);
+}
+
+.map-ctrl-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--muted);
+  transition: background-color 0.12s, color 0.12s;
+  outline: none;
+  position: relative;
+}
+
+.map-ctrl-btn:hover {
+  background-color: var(--surface-hover);
+  color: var(--foreground);
+}
+
+.map-ctrl-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.map-ctrl-btn.active {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+.dark .map-ctrl-btn.active {
+  background-color: rgba(15, 118, 110, 0.35);
+  color: #2dd4bf;
+}
+
+.map-ctrl-divider {
+  height: 1px;
+  background-color: var(--border);
+  flex-shrink: 0;
+}
+
+/* ─── Telemetry HUD ─── */
+.telemetry-hud {
+  font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: var(--card-shadow);
+  padding: 8px 10px;
+  min-width: 178px;
+  max-width: 220px;
+}
+
+.dark .telemetry-hud {
+  background: rgba(9, 13, 22, 0.95);
+  border-color: var(--border);
+}
+
+.telemetry-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  line-height: 1.6;
+}
+
+.telemetry-label {
+  color: var(--muted-light);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.telemetry-value {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  color: var(--foreground);
+  font-size: 10px;
+  text-align: right;
+}
+
+.telemetry-value.connected { color: #16a34a; }
+.telemetry-value.warn { color: #d97706; }
+.telemetry-value.error { color: #dc2626; }
+.telemetry-sep {
+  height: 1px;
+  background-color: var(--border);
+  margin: 4px 0;
+}
+
+/* ─── Custom Range Sliders ─── */
+.drain-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--primary) var(--slider-pct, 0%),
+    var(--border-strong) var(--slider-pct, 0%)
+  );
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+}
+
+.drain-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: var(--surface);
+  border: 2px solid var(--primary);
+  cursor: pointer;
+  transition: border-width 0.1s, box-shadow 0.1s;
+}
+
+.drain-slider::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
+}
+
+.drain-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.28);
+  border-width: 2.5px;
+}
+
+.drain-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: var(--surface);
+  border: 2px solid var(--primary);
+  cursor: pointer;
+}
+
+.drain-slider.amber-slider {
+  background: linear-gradient(
+    to right,
+    #d97706 var(--slider-pct, 0%),
+    var(--border-strong) var(--slider-pct, 0%)
+  );
+}
+
+.drain-slider.amber-slider::-webkit-slider-thumb {
+  border-color: #d97706;
+}
+
+.drain-slider.amber-slider::-moz-range-thumb {
+  border-color: #d97706;
+}
+
+/* ─── Numeric Input with Unit Suffix ─── */
+.unit-input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-hover);
+  overflow: hidden;
+  transition: border-color 0.12s;
+}
+
+.unit-input-wrap:focus-within {
+  border-color: var(--primary);
+}
+
+.unit-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 5px 8px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--foreground);
+  outline: none;
+  min-width: 0;
+}
+
+.unit-suffix {
+  padding: 5px 8px 5px 4px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  color: var(--muted);
+  background: transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ─── Row List Divider Pattern ─── */
+.row-list-item {
+  border-bottom: 1px solid var(--row-divider);
+  padding: 10px 0;
+}
+
+.row-list-item:last-child {
+  border-bottom: none;
+}
+
+/* ─── Evidence Image 16:9 Container ─── */
+.evidence-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.dark .evidence-img-wrap {
+  background: #1e293b;
+}
+
+.evidence-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.evidence-status-tag {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.evidence-status-tag.verified {
+  background: rgba(22, 101, 52, 0.82);
+  color: #bbf7d0;
+}
+
+.evidence-status-tag.pending {
+  background: rgba(120, 53, 15, 0.82);
+  color: #fde68a;
+}
+
+.evidence-status-tag.flagged {
+  background: rgba(153, 27, 27, 0.85);
+  color: #fecaca;
+}
+
+.evidence-status-tag.unverified {
+  background: rgba(15, 23, 42, 0.75);
+  color: #cbd5e1;
+}
+
+/* ─── Status Dot Indicators (static, no animation) ─── */
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.status-dot.critical { background: #dc2626; }
+.status-dot.high { background: #ea580c; }
+.status-dot.warning { background: #d97706; }
+.status-dot.inspected { background: #0284c7; }
+.status-dot.resolved { background: #16a34a; }
+.status-dot.unknown { background: #94a3b8; }
+
+/* ─── Asset ID Badge ─── */
+.asset-id-badge {
+  font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* ─── Tabular figures for telemetry data ─── */
+.font-mono-numbers {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Compact field label (sentence case) ─── */
+.meta-eyebrow,
+.meta-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.font-heading {
+  font-family: var(--font-source-serif), Georgia, "Times New Roman", serif;
+}
+
+/* ─── Scrollable Panel ─── */
+.panel-scroll {
+  overflow-y: auto;
+  max-height: min(300px, 45vh);
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.dark .panel-scroll {
+  scrollbar-color: #334155 transparent;
+}
+
+/* ─── Risk Zone Stripe Pattern ─── */
+.risk-zone-legend-stripe {
+  width: 20px;
+  height: 12px;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(220, 38, 38, 0.6),
+    rgba(220, 38, 38, 0.6) 2px,
+    rgba(220, 38, 38, 0.15) 2px,
+    rgba(220, 38, 38, 0.15) 6px
+  );
+  border: 1px solid rgba(220, 38, 38, 0.5);
+  border-radius: 2px;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
